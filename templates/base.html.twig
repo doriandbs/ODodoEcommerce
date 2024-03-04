@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon E-commerce</title>
+<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+<body>
+
+<!-- Bannière -->
+<header>
+    <h1>Bienvenue sur Mon E-commerce</h1>
+</header>
+
+<!-- Menu de navigation -->
+<nav>
+    <ul>
+        <li><a href="">Accueil</a></li>
+        <li><a href="">Produits</a></li>
+        <li><a href="">Catégories</a></li>
+        <li><a href="">Panier</a></li>
+         {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li><a href="{{ path('app_register') }}">Inscription</a></li>
+            <li><a href="{{ path('app_login') }}">Connexion</a></li>
+        {% else %}
+            <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+        {% endif %}
+
+
+    </ul>
+</nav>
+
+<!-- Contenu principal -->
+<main>
+    {% block body %}{% endblock %}
+</main>
+
+<!-- Pied de page -->
+<footer>
+    <p>© 2023 O'Dodo | 10 Rue de la Literie, Paris, France | Tel: 01.00.00.00.00</p>
+</footer>
+
+</body>
+</html>
