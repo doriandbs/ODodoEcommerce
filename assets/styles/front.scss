@@ -1,0 +1,96 @@
+@import "bootstrap/scss/bootstrap";
+
+.page-content{
+    min-height: calc(100vh);
+}
+
+body{
+    background-color: lightgray;
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer-logo {
+    width: auto;
+    max-width: 150px; 
+    height: auto;
+}
+
+#footer {
+    background-color: lightslategrey;
+}
+
+.border-lg-right {
+    border-right: 1px solid #000000;
+}
+
+@media (max-width: 991.98px) {
+    .border-lg-right {
+        border-right: none;
+    }
+}
+
+.btn-social {
+    font-size: 1.5rem; 
+}
+
+.small {
+    font-size: 0.75rem;
+}
+
+.img-carroussel{
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.carousel-item-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+  }
+  
+  .carousel-item {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-caption {
+    background: rgba(255, 255, 255, 0.7); 
+    padding: 10px; 
+    border-radius: 5px; 
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+  }
+  
+  .carousel-caption h5 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    color: #333; 
+    font-weight: bold; 
+  }
+  
+  .btn-outline-primary {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+  }
+  
+  
+
+.filter-title {
+    font-weight: normal;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+    margin-left: 0;
+    text-align: left;
+}

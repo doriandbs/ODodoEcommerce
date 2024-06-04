@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app_style') }}
+{% endblock stylesheets %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="p-3 p-sm-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Votre Boutique de Literie de Qualité</h1>
+        <p class="col-12 col-md-8 fs-6 fs-md-4">Bienvenue sur la boutique de O'Dodo Literie. Explorez nos produits, découvrez nos catégories et faites de superbes achats !</p>
+        <a class="btn btn-primary btn-lg" role="button" href="{{ path('app_produits') }}">Découvrir nos produits</a>
+    </div>
+</div>
+
+
+    <h2 class="mb-3">Produits Vedettes</h2>
+<div id="productsCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    {% for product in products %}
+    <button type="button" data-bs-target="#productsCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{{ loop.first ? 'active' : '' }}" aria-current="true" aria-label="Slide {{ loop.index }}"></button>
+    {% endfor %}
+  </div>
+  
+  <div class="carousel-inner">
+    {% for product in products %}
+      {% for image in images %}
+        {% if image.product != null %}
+          {% if image.product.id == product.id and image.public == true %}
+            <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+            <div class="carousel-item-background" style="background-image: url('/cms/images/{{ image.path }}');"></div>
+            <img  src="/cms/images/{{ image.path }}" class="img-carroussel" alt="{{ product.name }}">          
+            {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      <div class="carousel-caption d-none d-md-block text-black">
+        <h5>{{ product.name }}</h5>
+        <a href="{{ path('app_item_produits', {'id': product.id}) }}" class="btn btn-outline-primary">Voir le produit</a>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+  
+  <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Précédent</span>
+  </button>
+  
+  <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Suivant</span>
+  </button>
+</div>
+
+
+    <h2 class="mb-3 mt-5">Catégories</h2>
+<div class="row justify-content-center">
+    {% for category in categories %}
+        <div class="col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
+            <div class="card">
+                {# Boucle sur les images pour trouver celle correspondante à la catégorie #}
+                        <img src="/cms/images/{{ category.image.path }}" class="card-img-top" alt="{{ category.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">Découvrez notre gamme de produits pour la catégorie.</p>
+                    <a href="{{ path('app_produits', {'categories': [category.id]}) }}" class="btn btn-outline-primary">Explorer</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h2>Offre Spéciale de Lancement</h2>
+            <p>Inscrivez-vous à notre newsletter pour recevoir un bon de réduction exclusif !</p>
+            <button class="btn btn-success btn-lg">S'inscrire maintenant</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

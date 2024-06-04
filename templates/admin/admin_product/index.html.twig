@@ -1,0 +1,37 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <h1>Liste des produits</h1>
+    <a href="{{ path('app_product_admin_new') }}" class="btn btn-primary mb-3">Ajouter un produit</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom Du produit</th>
+                <th>Prix hors taxe</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.priceHT }} €</td>
+                <td> <img src="/cms/images/{{ product.image.path }}" style="width:10%" alt="{{ product.name }}"></td>
+                <td>
+                    <a href="{{ path('app_product_admin_show', {'id': product.id}) }}" class="btn btn-sm btn-info">Afficher</a>
+                    <a href="{{ path('app_product_admin_edit', {'id': product.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucuns produits</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

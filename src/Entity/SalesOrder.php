@@ -37,9 +37,41 @@ class SalesOrder
     #[ORM\OneToMany(mappedBy: 'salesOrder', targetEntity: Delivery::class)]
     private Collection $deliveries;
 
+    #[ORM\OneToMany(mappedBy: 'salesOrder', targetEntity: CommandLine::class, cascade: ['persist'])]
+    private Collection $commandLines;
+
+
     public function __construct()
     {
         $this->deliveries = new ArrayCollection();
+        $this->commandLines = new ArrayCollection();
+    }
+
+    public function getCommandLines(): Collection
+    {
+        return $this->commandLines;
+    }
+
+
+    public function addCommandLine(CommandLine $commandLine): self
+    {
+        if (!$this->commandLines->contains($commandLine)) {
+            $this->commandLines[] = $commandLine;
+            $commandLine->setSalesOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandLine(CommandLine $commandLine): self
+    {
+        if ($this->commandLines->removeElement($commandLine)) {
+            if ($commandLine->getSalesOrder() === $this) {
+                $commandLine->setSalesOrder(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getId(): ?int

@@ -1,0 +1,41 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}SalesOrder index{% endblock %}
+
+{% block body %}
+    <h1>SalesOrder index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TotalQuantity</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Firstname</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sales_order in sales_orders %}
+            <tr>
+                <td>{{ sales_order.id }}</td>
+                <td>{{ sales_order.totalQuantity }}</td>
+                <td>{{ sales_order.date ? sales_order.date|date('Y-m-d') : '' }}</td>
+                <td>{{ sales_order.name }}</td>
+                <td>{{ sales_order.firstname }}</td>
+                <td>
+                    <a href="{{ path('app_sales_order_admin_show', {'id': sales_order.id}) }}">show</a>
+                    <a href="{{ path('app_sales_order_admin_edit', {'id': sales_order.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sales_order_admin_new') }}">Create new</a>
+{% endblock %}

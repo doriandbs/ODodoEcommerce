@@ -1,44 +1,35 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon E-commerce</title>
-<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <title>{% block title %}O'Dodo{% endblock %}</title>
+
+    <link rel="icon" type="image/jpg" href="{{ asset('pictures/favicon.png') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    {% block stylesheets %}
+    
+        {{ encore_entry_link_tags('app_style') }}
+        
+    {% endblock stylesheets %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+
+    {% endblock javascripts %}
+</head>
 <body>
 
-<!-- Bannière -->
-<header>
-    <h1>Bienvenue sur Mon E-commerce</h1>
-</header>
+  
+        {% include 'header/header.html.twig' with { 'cartItemCount': cartItemCount } %}
 
-<!-- Menu de navigation -->
-<nav>
-    <ul>
-        <li><a href="">Accueil</a></li>
-        <li><a href="">Produits</a></li>
-        <li><a href="">Catégories</a></li>
-        <li><a href="">Panier</a></li>
-         {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <li><a href="{{ path('app_register') }}">Inscription</a></li>
-            <li><a href="{{ path('app_login') }}">Connexion</a></li>
-        {% else %}
-            <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
-        {% endif %}
+    <div class="container page-content">
+        {% block body %}{% endblock %}
+    </div>
 
-
-    </ul>
-</nav>
-
-<!-- Contenu principal -->
-<main>
-    {% block body %}{% endblock %}
-</main>
-
-<!-- Pied de page -->
-<footer>
-    <p>© 2023 O'Dodo | 10 Rue de la Literie, Paris, France | Tel: 01.00.00.00.00</p>
-</footer>
+    {% include 'footer/footer.html.twig' %}
 
 </body>
 </html>

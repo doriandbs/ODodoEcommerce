@@ -24,7 +24,7 @@ class Cart
     #[ORM\ManyToOne(inversedBy: 'carts')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: ProductCart::class)]
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: ProductCart::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $productCarts;
 
     public function __construct()
@@ -94,12 +94,20 @@ class Cart
     public function removeProductCart(ProductCart $productCart): static
     {
         if ($this->productCarts->removeElement($productCart)) {
-            // set the owning side to null (unless already changed)
             if ($productCart->getCart() === $this) {
                 $productCart->setCart(null);
             }
         }
 
         return $this;
+    }
+
+    public function recalculateTotal(): void
+    {
+        $total = 0;
+        foreach ($this->productCarts as $productCart) {
+            $total += $productCart->getProduct()->getPriceHT() * $productCart->getQuantity();
+        }
+        $this->total = $total;
     }
 }

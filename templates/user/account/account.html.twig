@@ -1,0 +1,19 @@
+{% extends user and 'ROLE_ADMIN' in user.roles ? 'base-admin.html.twig' : 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Mon Compte</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
+            <p class="card-text">
+                <strong>Email:</strong> {{ user.email }}<br>
+                <strong>Téléphone:</strong> {{ user.phone }}<br>
+                <strong>Role(s):</strong> {{ roles|join(', ') }}<br>
+                <strong>Vérifié:</strong> {{ user.isVerified ? 'Yes' : 'No' }}<br>
+                <strong>Date de création:</strong> {{ user.createdDate ? user.createdDate|date('Y-m-d H:i:s') : 'N/A' }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,11 +57,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdDate= null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deletedDate= null;
+
     public function __construct()
     {
         $this->userAddresses = new ArrayCollection();
         $this->carts = new ArrayCollection();
         $this->salesOrders = new ArrayCollection();
+    }
+
+    public function getCreatedDate(): ?DateTimeImmutable{
+        return $this->createdDate;
+    }
+
+    
+    public function setCreatedDate(DateTimeImmutable $createdDate): static
+    {
+        $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getDeletedDate(): DateTimeImmutable{
+        return $this->deletedDate;
+    }
+
+    
+    public function setDeletedDate(DateTimeImmutable $deletedDate): static
+    {
+        $this->deletedDate = $deletedDate;
+
+        return $this;
     }
 
     public function getId(): ?int

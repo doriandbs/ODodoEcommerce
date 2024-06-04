@@ -45,4 +45,9 @@ class CategoryRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findAll()
+{
+    $qb = $this->createQueryBuilder('c');
+    return $qb->getQuery()->getResult();
+}
 }

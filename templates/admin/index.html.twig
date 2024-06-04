@@ -1,14 +1,88 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello AdminController!{% endblock %}
+{% extends 'base-admin.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container mt-5">
+    <h2 class="mb-4">Dashboard Administrateur</h2>
 
-<div class="example-wrapper">
+
+    <div class="row mb-4">
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text">Gérer les utilisateurs.</p>
+                    <a href="{{ path('app_user_index') }}" class="btn btn-light">Voir Utilisateurs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Commandes</h5>
+                    <p class="card-text">Gérer les commandes.</p>
+                    <a href="{{path('app_sales_order_admin_index')}}" class="btn btn-light">Voir Commandes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Produits</h5>
+                    <p class="card-text">Gérer les produits.</p>
+                    <a href="{{ path('app_product_admin_index') }}" class="btn btn-light">Gérer Produits</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Paniers</h5>
+                    <p class="card-text">Gérer les paniers.</p>
+                    <a href="{{ path('app_cart_admin_index') }}" class="btn btn-light">Gérer Paniers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text">Gérer les catégories.</p>
+                    <a href="{{ path('app_category_admin_index') }}" class="btn btn-light">Gérer Categories</a>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    Statistiques Rapides
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <h6>Total Utilisateurs</h6>
+                            <p>{{ totalUsers }}</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <h6>Total Commandes</h6>
+                            <p>{{ totalOrders }}</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <h6>Commandes en Attente</h6>
+                            <p>{{ pendingOrders }}</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <h6>Revenu Mensuel</h6>
+                            <p>{{ monthlyRevenue }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>

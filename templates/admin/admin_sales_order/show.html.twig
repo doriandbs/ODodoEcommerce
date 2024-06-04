@@ -1,0 +1,45 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Sales Order #{{ sales_order.id }}{% endblock %}
+
+{% block body %}
+<h1>Details for Sales Order #{{ sales_order.id }}</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Order Information</h5>
+        <p class="card-text">Name: {{ sales_order.name }} {{ sales_order.firstname }}</p>
+        <p class="card-text">Date: {{ sales_order.date|date('Y-m-d') }}</p>
+        <p class="card-text">Total Quantity: {{ sales_order.totalQuantity }}</p>
+        <p class="card-text">User: {{ sales_order.user ? sales_order.user.email : 'Not registered user' }}</p>
+    </div>
+</div>
+
+<h3>Items in this Order</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>VAT Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for command_line in sales_order.commandLines %}
+        <tr>
+            <td>{{ command_line.product.name }}</td>
+            <td>{{ command_line.finalPriceUnit }}€</td>
+            <td>{{ command_line.vatRate }}%</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">No items found in this order.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_sales_order_admin_index') }}" class="btn btn-primary">Back to list</a>
+{% endblock %}

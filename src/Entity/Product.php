@@ -6,6 +6,8 @@ use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTimeImmutable;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -21,6 +23,9 @@ class Product
     #[ORM\Column]
     private ?int $priceHT = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagePath = null;    
+
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
@@ -33,11 +38,81 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductCart::class)]
     private Collection $productCarts;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deletedDate= null;
+    
+    #[ORM\OneToOne(targetEntity: File::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?File $image = null;
+
+    #[ORM\Column]
+    private ?string $img = null;
+
+    #[ORM\Column]
+    private ?bool $public;
+    
+    public function getPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): self
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+
     public function __construct()
     {
         $this->commandLines = new ArrayCollection();
         $this->productCarts = new ArrayCollection();
     }
+
+    public function getImagePath(): ?string{
+        return $this->imagePath;
+    }
+
+    public function setImagePath(String $imagePath){
+         $this->imagePath = $imagePath;
+         return $this;
+    }
+    public function getDeletedDate(): DateTimeImmutable{
+        return $this->deletedDate;
+    }
+
+    public function getImg(): ?string 
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): static
+    {
+        $this->img = $img;
+
+        return $this;
+    }
+
+    public function getImage(): ?File 
+    {
+        return $this->image;
+    }
+
+    public function setImage(?File $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    
+    public function setDeletedDate(DateTimeImmutable $deletedDate): static
+    {
+        $this->deletedDate = $deletedDate;
+
+        return $this;
+    }
+    
 
     public function getId(): ?int
     {
@@ -150,5 +225,12 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        $slugger = new AsciiSlugger();
+        $slug = $slugger-> slug($this->name);
+        return strtolower($slug);
     }
 }

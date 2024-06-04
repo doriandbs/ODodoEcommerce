@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}O'Dodo Administration{% endblock %}</title>
+
+    <link rel="icon" type="image/jpg" href="{{ asset('pictures/favicon.png') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
+
+    {% block stylesheets %}
+    
+        {{ encore_entry_link_tags('app_style') }}
+        
+    {% endblock stylesheets %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock javascripts %}
+</head>
+<body>
+
+  <div class="d-flex">
+        {% include 'admin/admin_sidebar/sidebar-admin.html.twig' %}
+        <div class="container page-content flex-grow-1">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

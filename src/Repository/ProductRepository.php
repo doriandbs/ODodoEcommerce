@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,14 +7,6 @@ use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Product>
- *
- * @method Product|null find($id, $lockMode = null, $lockVersion = null)
- * @method Product|null findOneBy(array $criteria, array $orderBy = null)
- * @method Product[]    findAll()
- * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,28 +14,47 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Product
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findProductsGroupedByCategory(array $categoryIds = [], ?string $priceMin = null, ?string $priceMax = null)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p, c')
+            ->join('p.category', 'c')
+            ->where('p.deletedDate IS NULL')
+            ->orderBy('c.name', 'ASC');
+
+        if ($categoryIds) {
+            $qb->andWhere('c.id IN (:categoryIds)')
+                ->setParameter('categoryIds', $categoryIds);
+        }
+
+        if ($priceMin !== null) {
+            $qb->andWhere('p.priceHT >= :priceMin')
+                ->setParameter('priceMin', $priceMin);
+        }
+
+        if ($priceMax !== null) {
+            $qb->andWhere('p.priceHT <= :priceMax')
+                ->setParameter('priceMax', $priceMax);
+        }
+
+
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+
+        $groupedProducts = [];
+        foreach ($results as $result) {
+            $category = $result->getCategory();
+            if (!isset($groupedProducts[$category->getId()])) {
+                $groupedProducts[$category->getId()] = [
+                    'category' => $category,
+                    'products' => []
+                ];
+            }
+            $groupedProducts[$category->getId()]['products'][] = $result;
+         }
+
+    return $groupedProducts;
+}
+
 }

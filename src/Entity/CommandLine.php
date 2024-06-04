@@ -19,8 +19,9 @@ class CommandLine
     #[ORM\Column]
     private ?int $vatRate = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'commandLines', cascade: ['persist', 'remove'])]
     private ?SalesOrder $salesOrder = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'commandLines')]
     private ?Product $product = null;

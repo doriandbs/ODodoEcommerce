@@ -16,10 +16,34 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $namename = null;
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagePath = null;  
+
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
+
+    #[ORM\OneToOne(targetEntity: File::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?File $image = null;
+
+    public function getImage(): ?File 
+    {
+        return $this->image;
+    }
+
+    public function setImage(?File $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    
 
     public function __construct()
     {
@@ -31,18 +55,37 @@ class Category
         return $this->id;
     }
 
-    public function getNamename(): ?string
+    public function getName(): ?string
     {
-        return $this->namename;
+        return $this->name;
     }
 
-    public function setNamename(string $namename): static
+    public function setName(string $name): static
     {
-        $this->namename = $namename;
+        $this->name = $name;
 
         return $this;
     }
 
+    public function getImagePath(): ?string{
+        return $this->imagePath;
+    }
+
+
+   public function setImagePath(string $imagePath): static
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+    public function getDescription(): ?string{
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self {
+        $this->description = $description;
+        return $this;
+    }    
     /**
      * @return Collection<int, Product>
      */

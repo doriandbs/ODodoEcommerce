@@ -1,0 +1,11 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}New SalesOrder{% endblock %}
+
+{% block body %}
+    <h1>Create new SalesOrder</h1>
+
+    {{ include('admin/admin_sales_order/_form.html.twig') }}
+
+    <a href="{{ path('app_sales_order_admin_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}New Cart{% endblock %}
+
+{% block body %}
+    <h1>Create new Cart</h1>
+
+    {{ include('admin/admin_cart/_form.html.twig') }}
+
+    <a href="{{ path('app_cart_admin_index') }}">back to list</a>
+{% endblock %}
